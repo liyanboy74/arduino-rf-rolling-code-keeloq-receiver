@@ -1,3 +1,22 @@
+/**
+ *  Arduino RF rolling code keeloq receiver 
+ *  By: Liyanboy74
+ *
+ *  https://github.com/liyanboy74/arduino-rf-rolling-code-keeloq-receiver
+ *
+ *  Programmer:
+ *  Software: https://github.com/ioelectro/hcs-programmer-soft
+ *  Hardwer: https://github.com/ioelectro/arduino-hcs-programmer
+ *  Doc: https://ioelectro.ir/blog/hcs-programmer/
+ *
+ *  Keeloq Encoder/Decoder:
+ *  Algoritm: https://github.com/liyanboy74/KeeLoq
+ *  Doc: https://ioelectro.ir/blog/keeloq/ 
+ *
+ *
+ *
+ */
+
 #include <Arduino.h>
 #include <string.h>
 #include <stdio.h>
@@ -23,7 +42,6 @@ void blink() {
 }
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(115200);
   pinMode(LED_PIN, OUTPUT);
   radio_init(&radio);
