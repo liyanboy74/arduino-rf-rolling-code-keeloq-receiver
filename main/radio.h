@@ -41,6 +41,8 @@ void radio_init(struct radioRXC *obj);
 void radio_rx_reset(struct radioRXC *obj);
 bool radio_rx_data_is_ready(struct radioRXC *obj);
 
+uint32_t flip32(uint32_t Data);
+
 void RADIO_SIGNAL_PIN_handler();
 
 extern struct radioRXC radio;

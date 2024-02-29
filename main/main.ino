@@ -11,7 +11,7 @@
 char Buffer[64];
 uint8_t i=0;
 
-uint64_v key= {0x5cec6701,0xb79fd949};
+uint64_v key= {0x03C81E8F,0x2B6E076C};
 
 struct hcsFixed hcs_fix;
 struct hcsEncrypted hcs_enc;
@@ -40,11 +40,11 @@ void loop() {
     keeloq_decrypt(&key,&plaintext,&ciphertext,KEELOQ_NROUNDS);
     hcs_enc=*(struct hcsEncrypted*)&plaintext;
 
-    sprintf(Buffer,"%03d: fix=%08lX enc=%08lX ",++i,radio.dataF,radio.dataE);
+    sprintf(Buffer,"%03d: fix=%08lX : btn=%lX ser=%lX ",++i,radio.dataF,hcs_fix.btn,hcs_fix.ser);
     Serial.print(Buffer);
-    sprintf(Buffer,"btn=%lX ser=%lX dec=[%08lX]-> ",hcs_fix.btn,hcs_fix.ser,plaintext);
+    sprintf(Buffer,", enc=[%08lX] --> dec=%08lX : ",radio.dataE,plaintext);
     Serial.print(Buffer);
-    sprintf(Buffer,"btn=[%lX] ovr=[%lX] disc=[%lX] C=[%lX] \r\n",hcs_enc.btn,hcs_enc.ovr,hcs_enc.disc,hcs_enc.counter);
+    sprintf(Buffer,"btn=%lX ovr=%lX disc=%lX C=%lX \r\n",hcs_enc.btn,hcs_enc.ovr,hcs_enc.disc,hcs_enc.counter);
     Serial.print(Buffer);
 
     radio_rx_reset(&radio);

@@ -54,6 +54,8 @@ void radio_rx_get_bit(struct radioRXC *obj, uint8_t bit_value) {
     }
     obj->index++;
     if (obj->index == 66) {
+      obj->dataF=flip32(obj->dataF);
+      obj->dataE=flip32(obj->dataE);
       obj->state = RADIO_DATA_OK;
     }
   }
@@ -106,6 +108,19 @@ void radio_rx_stop(struct radioRXC *obj) {
 bool radio_rx_data_is_ready(struct radioRXC *obj) {
   if (obj->state == RADIO_DATA_OK) return true;
   else return false;
+}
+
+uint32_t flip32(uint32_t Data)
+{
+  uint32_t flip=0;
+  uint8_t i;
+  for(i=0;i<32;i++)
+  {
+    flip=flip<<1;
+    flip|=Data&1;
+    Data=Data>>1;
+  }
+  return flip;
 }
 
 void RADIO_SIGNAL_PIN_handler() {
