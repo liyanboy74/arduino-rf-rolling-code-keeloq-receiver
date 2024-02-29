@@ -73,7 +73,7 @@ void loop() {
     hcs_enc=*(struct hcsEncrypted*)&plaintext;
 
     // Print data to serial com port
-    sprintf(Buffer,"%03d: fix=%08lX : btn=%lX ser=%lX ",++i,radio.dataF,hcs_fix.btn,hcs_fix.ser);
+    sprintf(Buffer,"%03d: fix=%08lX : vr=%X btn=%lX ser=%lX ",++i,radio.dataF,radio.dataVR,hcs_fix.btn,hcs_fix.ser);
     Serial.print(Buffer);
     sprintf(Buffer,", enc=[%08lX] --> dec=%08lX : ",radio.dataE,plaintext);
     Serial.print(Buffer);

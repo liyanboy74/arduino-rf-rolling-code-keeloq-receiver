@@ -92,7 +92,7 @@ void radio_check_sig_pulse(struct radioRXC *obj, struct oneBit *d) {
 
 void radio_ckeck_end_bit_pulse(struct radioRXC *obj, struct oneBit *d) {
   if (obj->index == 65) {
-    if (d->on < (int)((obj->pulselength * (float)1.5))) radio_rx_get_bit(obj, 1);
+    if (d->on < (uint16_t)((obj->pulselength * (float)1.5))) radio_rx_get_bit(obj, 1);
     else radio_rx_get_bit(obj, 0);
   }
 }
