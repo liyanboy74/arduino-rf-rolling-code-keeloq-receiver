@@ -1,3 +1,8 @@
+/**
+ * By Liyanboy74
+ * at www.ioelectro.ir
+ * https://github.com/liyanboy74/arduino-rf-rolling-code-keeloq-receiver
+ */
 
 struct hcsEncrypted{
   uint32_t counter:16;

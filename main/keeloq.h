@@ -1,6 +1,9 @@
-/*
-  https://github.com/liyanboy74/KeeLoq
-*/
+/**
+ * By Liyanboy74
+ * at www.ioelectro.ir
+ * https://github.com/liyanboy74/KeeLoq
+ */
+
 #ifndef __keeloq_h__
 #define __keeloq_h__
 
