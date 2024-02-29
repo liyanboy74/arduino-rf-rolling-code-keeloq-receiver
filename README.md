@@ -2,6 +2,10 @@
 
 Arduino RF rolling code keeloq receiver 
 
+**HCS301** is a code hopping encoder designed for secure Remote Keyless Entry (RKE) systems.
+It is primarily used in vehicles and home garage door openers.
+The HCS301 utilizes Microchip’s patented.
+
 Programmer:<br>
 Software: https://github.com/ioelectro/hcs-programmer-soft<br>
 Hardwer: https://github.com/ioelectro/arduino-hcs-programmer<br>
