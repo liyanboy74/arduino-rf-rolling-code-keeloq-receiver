@@ -19,9 +19,11 @@ just Connect RF 433 or 315 Mhz resiver to pin 2 (INT0) arduino UNO v3.<br>
 for correct encoding the encrypted part of received packet we must know the key of keeloq algorithm.
 
 **Pinout**
-![How-433MHz-RF-Tx-Rx-Modules-Work-Interface-with-Arduino-UNO](https://github.com/liyanboy74/arduino-rf-rolling-code-keeloq-receiver/assets/64005694/494af9d4-ec15-42f3-8ccd-76c05fbe732f)
+
+![pin out](https://github.com/liyanboy74/arduino-rf-rolling-code-keeloq-receiver/assets/64005694/a802b74a-0f1d-48e5-ae89-53ffae9bc903)
 
 ![Packet](https://github.com/liyanboy74/arduino-rf-rolling-code-keeloq-receiver/assets/64005694/ac3b46ce-226e-42ef-95df-c9de44f4fd20)
+
 
 Output Example:
 ```
