@@ -45,6 +45,7 @@ extern "C" {
 
 void radio_init(struct radioRXC *obj);
 void radio_rx_reset(struct radioRXC *obj);
+void radio_rx_stop(struct radioRXC *obj);
 bool radio_rx_data_is_ready(struct radioRXC *obj);
 
 uint32_t flip32(uint32_t Data);
