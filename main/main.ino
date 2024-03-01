@@ -65,12 +65,13 @@ void loop() {
 
     // the received data (fix,encripted,vr) stored in [radio.dataF,radio.dataE,radio.dataVR] and ready for reading by the software.
     // using hcs301.h we can format and read bit by bit filds [hcs_fix,hcs_enc].
-    hcs_fix=*(struct hcsFixed*)&radio.dataF;
+    memcpy(&hcs_fix,&radio.dataF,sizeof(radio.dataF));
+    
 
     // decrypting encripted data by keeloq algoritm and key. 
-    ciphertext=(uint32_t)radio.dataE;
+    memcpy(&ciphertext,&radio.dataE,sizeof(radio.dataE));
     keeloq_decrypt(&key,&plaintext,&ciphertext,KEELOQ_NROUNDS);
-    hcs_enc=*(struct hcsEncrypted*)&plaintext;
+    memcpy(&hcs_enc,&plaintext,sizeof(plaintext));
 
     // Print data to serial com port
     sprintf(Buffer,"%03d: fix=%08lX : vr=%X btn=%lX ser=%lX ",++i,radio.dataF,radio.dataVR,hcs_fix.btn,hcs_fix.ser);
