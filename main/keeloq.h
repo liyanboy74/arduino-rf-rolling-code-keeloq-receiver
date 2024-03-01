@@ -1,7 +1,7 @@
 /**
- * By Liyanboy74
- * at www.ioelectro.ir
+ * By Liyanboy74,hadipourh
  * https://github.com/liyanboy74/KeeLoq
+ * https://github.com/hadipourh/KeeLoq
  */
 
 #ifndef __keeloq_h__
