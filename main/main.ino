@@ -66,7 +66,6 @@ void loop() {
     // the received data (fix,encripted,vr) stored in [radio.dataF,radio.dataE,radio.dataVR] and ready for reading by the software.
     // using hcs301.h we can format and read bit by bit filds [hcs_fix,hcs_enc].
     memcpy(&hcs_fix,&radio.dataF,sizeof(radio.dataF));
-    
 
     // decrypting encripted data by keeloq algoritm and key. 
     memcpy(&ciphertext,&radio.dataE,sizeof(radio.dataE));
