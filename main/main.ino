@@ -31,8 +31,8 @@
 char Buffer[64];
 uint8_t i=0;
 
-// key for keeloq algoritm
-// must be same as transmiter key
+// KEY for keeloq algoritm
+// must be same as transmiter key, 64bit ={MS 32bit ,LS 32bit}
 uint64_v key= {0x03C81E8F,0x2B6E076C};
 
 // some useful structher for bitfildes
