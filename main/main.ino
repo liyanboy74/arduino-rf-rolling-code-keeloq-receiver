@@ -64,12 +64,17 @@ void loop() {
     blink();
 
     // the received data (fix,encripted,vr) stored in [radio.dataF,radio.dataE,radio.dataVR] and ready for reading by the software.
-    // using hcs301.h we can format and read bit by bit filds [hcs_fix,hcs_enc].
+    // using hcs301.h we can format and read bit by bitfilds [hcs_fix,hcs_enc].
     memcpy(&hcs_fix,&radio.dataF,sizeof(radio.dataF));
-
-    // decrypting encripted data by keeloq algoritm and key. 
+ 
+    // copy encripted tata to keeloq buffer for decripting
     memcpy(&ciphertext,&radio.dataE,sizeof(radio.dataE));
+
+    // decrypting encripted data by keeloq algoritm and key.
     keeloq_decrypt(&key,&plaintext,&ciphertext,KEELOQ_NROUNDS);
+
+    // copy decripted data from keeloq buffer
+    // using hcs301.h we can format and read bit by bitfilds [hcs_fix,hcs_enc].
     memcpy(&hcs_enc,&plaintext,sizeof(plaintext));
 
     // Print data to serial com port
