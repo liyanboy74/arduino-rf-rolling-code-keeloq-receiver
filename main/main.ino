@@ -29,12 +29,11 @@
 
 // some buffer for string formating in sprintf
 char Buffer[64];
-uint8_t i = 0;
+uint16_t i = 0;
 
 // KEY for keeloq algoritm
 // must be same as transmiter key, 64bit LSB-first
 uint8_t key[] = { 0x56, 0x4a, 0xbc, 0x07, 0x57, 0x1e, 0x62, 0x94 };
-// uint8_t key[] = { 0xf8, 0x75, 0xdc, 0x74, 0xa6, 0xbf, 0x6e, 0x85 };
 
 // some useful structher for bitfildes
 struct hcsFixed hcs_fix;
@@ -96,6 +95,7 @@ void loop() {
         sprintf(Buffer, "btn=%lX ovr=%lX disc=%lX C=%lX \r\n", hcs_enc.btn, hcs_enc.ovr, hcs_enc.disc, hcs_enc.counter);
         Serial.print(Buffer);
       } else {
+        // disc not match by 10bit of serial lsb
         Serial.print(", WRONG KEY!\r\n");
       }
     }
