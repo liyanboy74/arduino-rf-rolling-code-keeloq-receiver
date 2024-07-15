@@ -34,6 +34,7 @@ uint8_t i = 0;
 // KEY for keeloq algoritm
 // must be same as transmiter key, 64bit LSB-first
 uint8_t key[] = { 0x56, 0x4a, 0xbc, 0x07, 0x57, 0x1e, 0x62, 0x94 };
+// uint8_t key[] = { 0xf8, 0x75, 0xdc, 0x74, 0xa6, 0xbf, 0x6e, 0x85 };
 
 // some useful structher for bitfildes
 struct hcsFixed hcs_fix;
@@ -59,34 +60,45 @@ void setup() {
 void loop() {
   // check if we have new received packet
   if (radio_rx_data_is_ready(&radio)) {
-
-    // led indikator
+    // LED indikator
     blink();
 
     // the received data (fix,encripted,vr) stored in [radio.dataF,radio.dataE,radio.dataVR] and ready for reading by the software.
     // using hcs301.h we can format and read bit by bitfilds [hcs_fix,hcs_enc].
     memcpy(&hcs_fix, &radio.dataF, sizeof(radio.dataF));
 
-    // copy encripted tata to keeloq buffer for decripting
-    memcpy(&temp, &radio.dataE, sizeof(radio.dataE));
-
-    // decrypting encripted data by keeloq algoritm and key.
-    keeloq_decrypt(key, &temp, KEELOQ_NROUNDS);
-
-    // copy decripted data from keeloq buffer
-    // using hcs301.h we can format and read bit by bitfilds [hcs_fix,hcs_enc].
-    memcpy(&hcs_enc, &temp, sizeof(temp));
-
     // Print data to serial com port
     sprintf(Buffer, "%03d: fix=%08lX : vr=%X btn=%lX ser=%lX ", ++i, radio.dataF, radio.dataVR, hcs_fix.btn, hcs_fix.ser);
     Serial.print(Buffer);
-    sprintf(Buffer, ", enc=[%08lX] --> dec=%08lX : ", radio.dataE, temp);
-    Serial.print(Buffer);
-    sprintf(Buffer, "btn=%lX ovr=%lX disc=%lX C=%lX \r\n", hcs_enc.btn, hcs_enc.ovr, hcs_enc.disc, hcs_enc.counter);
-    Serial.print(Buffer);
 
-    // need for Serial.print() work correctly!
-    delay(200);
+    // Check if all key pressed for SEED
+    if (hcs_fix.btn == 0xf) {
+      //Print SEED
+      sprintf(Buffer, ", SEED=[%08lX] \r\n", radio.dataE);
+      Serial.print(Buffer);
+
+    } else {
+      // copy encripted Data to keeloq buffer for decripting
+      memcpy(&temp, &radio.dataE, sizeof(radio.dataE));
+
+      // decrypting encripted data by keeloq algoritm and key.
+      keeloq_decrypt(key, &temp, KEELOQ_NROUNDS);
+
+      // copy decripted data from keeloq buffer
+      // using hcs301.h we can format and read bit by bitfilds [hcs_fix,hcs_enc].
+      memcpy(&hcs_enc, &temp, sizeof(temp));
+
+      // Check disc
+      if (hcs_enc.disc == (hcs_fix.ser & 0x3ff)) {
+        // Everything is OK
+        sprintf(Buffer, ", enc= [%08lX] --> dec=%08lX : ", radio.dataE, temp);
+        Serial.print(Buffer);
+        sprintf(Buffer, "btn=%lX ovr=%lX disc=%lX C=%lX \r\n", hcs_enc.btn, hcs_enc.ovr, hcs_enc.disc, hcs_enc.counter);
+        Serial.print(Buffer);
+      } else {
+        Serial.print(", WRONG KEY!\r\n");
+      }
+    }
 
     // continue receiving radio signal
     radio_rx_reset(&radio);
