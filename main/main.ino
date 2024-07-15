@@ -29,18 +29,18 @@
 
 // some buffer for string formating in sprintf
 char Buffer[64];
-uint8_t i=0;
+uint8_t i = 0;
 
 // KEY for keeloq algoritm
-// must be same as transmiter key, 64bit ={MS 32bit ,LS 32bit}
-uint64_v key= {0x03C81E8F,0x2B6E076C};
+// must be same as transmiter key, 64bit LSB-first
+uint8_t key[] = { 0x56, 0x4a, 0xbc, 0x07, 0x57, 0x1e, 0x62, 0x94 };
 
 // some useful structher for bitfildes
 struct hcsFixed hcs_fix;
 struct hcsEncrypted hcs_enc;
 
 // buffers for keeloq
-uint32_t ciphertext,plaintext;
+uint32_t temp;
 
 // jast toggel led
 void blink() {
@@ -65,25 +65,28 @@ void loop() {
 
     // the received data (fix,encripted,vr) stored in [radio.dataF,radio.dataE,radio.dataVR] and ready for reading by the software.
     // using hcs301.h we can format and read bit by bitfilds [hcs_fix,hcs_enc].
-    memcpy(&hcs_fix,&radio.dataF,sizeof(radio.dataF));
- 
+    memcpy(&hcs_fix, &radio.dataF, sizeof(radio.dataF));
+
     // copy encripted tata to keeloq buffer for decripting
-    memcpy(&ciphertext,&radio.dataE,sizeof(radio.dataE));
+    memcpy(&temp, &radio.dataE, sizeof(radio.dataE));
 
     // decrypting encripted data by keeloq algoritm and key.
-    keeloq_decrypt(&key,&plaintext,&ciphertext,KEELOQ_NROUNDS);
+    keeloq_decrypt(key, &temp, KEELOQ_NROUNDS);
 
     // copy decripted data from keeloq buffer
     // using hcs301.h we can format and read bit by bitfilds [hcs_fix,hcs_enc].
-    memcpy(&hcs_enc,&plaintext,sizeof(plaintext));
+    memcpy(&hcs_enc, &temp, sizeof(temp));
 
     // Print data to serial com port
-    sprintf(Buffer,"%03d: fix=%08lX : vr=%X btn=%lX ser=%lX ",++i,radio.dataF,radio.dataVR,hcs_fix.btn,hcs_fix.ser);
+    sprintf(Buffer, "%03d: fix=%08lX : vr=%X btn=%lX ser=%lX ", ++i, radio.dataF, radio.dataVR, hcs_fix.btn, hcs_fix.ser);
     Serial.print(Buffer);
-    sprintf(Buffer,", enc=[%08lX] --> dec=%08lX : ",radio.dataE,plaintext);
+    sprintf(Buffer, ", enc=[%08lX] --> dec=%08lX : ", radio.dataE, temp);
     Serial.print(Buffer);
-    sprintf(Buffer,"btn=%lX ovr=%lX disc=%lX C=%lX \r\n",hcs_enc.btn,hcs_enc.ovr,hcs_enc.disc,hcs_enc.counter);
+    sprintf(Buffer, "btn=%lX ovr=%lX disc=%lX C=%lX \r\n", hcs_enc.btn, hcs_enc.ovr, hcs_enc.disc, hcs_enc.counter);
     Serial.print(Buffer);
+
+    // need for Serial.print() work correctly!
+    delay(200);
 
     // continue receiving radio signal
     radio_rx_reset(&radio);

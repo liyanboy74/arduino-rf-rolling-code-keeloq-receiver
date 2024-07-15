@@ -13,7 +13,7 @@
 #define RADIO_SIGNAL_PIN 2  //Intrrupt 0
 
 enum radio_s_e {
-  RADIO_OFF=0,
+  RADIO_OFF = 0,
   RADIO_LISTEN,
   RADIO_SYNC_OK,
   RADIO_DATA_OK
@@ -43,19 +43,19 @@ struct radioRXC {
 extern "C" {
 #endif
 
-void radio_init(struct radioRXC *obj);
-void radio_rx_reset(struct radioRXC *obj);
-void radio_rx_stop(struct radioRXC *obj);
-bool radio_rx_data_is_ready(struct radioRXC *obj);
+  void radio_init(struct radioRXC *obj);
+  void radio_rx_reset(struct radioRXC *obj);
+  void radio_rx_stop(struct radioRXC *obj);
+  bool radio_rx_data_is_ready(struct radioRXC *obj);
 
-uint32_t flip32(uint32_t Data);
+  uint32_t flip32(uint32_t Data);
 
-void RADIO_SIGNAL_PIN_handler();
+  void RADIO_SIGNAL_PIN_handler();
 
-extern struct radioRXC radio;
+  extern struct radioRXC radio;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif //__radio_h__
+#endif  //__radio_h__
