@@ -15,6 +15,8 @@ Keeloq Encoder/Decoder:<br>
 Algoritm: https://github.com/liyanboy74/KeeLoq<br>
 Doc: https://ioelectro.ir/blog/keeloq/ <br>
 
+Read more: https://ioelectro.ir/?p=353
+
 just Connect RF 433 or 315 Mhz receiver to pin 2 (INT0) arduino UNO v3.<br>
 for correct encoding the encrypted part of received packet we must know the key of keeloq algorithm.
 
